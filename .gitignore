@@ -13,5 +13,6 @@ project/boot/
 project/plugins/project/
 
 # Scala-IDE specific
+.idea
 .scala_dependencies
 .worksheet
