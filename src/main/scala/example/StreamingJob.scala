@@ -26,6 +26,7 @@ object StreamingJob extends App {
   val sparkConf = new SparkConf()
     .setMaster(sparkMaster)
     .setAppName("StreamingExample")
+    .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
 
   val sc = new SparkContext(sparkConf)
   val batchInterval = config.getInt("spark.batch.interval")
