@@ -166,7 +166,7 @@ public abstract class AbstractKafkaAvroToJsonDeserializer extends AbstractKafkaA
           return new NonRecordContainer(schema, result);
         }
       } else {
-        return result;
+        return result.toString();
       }
     } catch (IOException e) {
       throw new SerializationException("Error deserializing Avro message for id " + id, e);

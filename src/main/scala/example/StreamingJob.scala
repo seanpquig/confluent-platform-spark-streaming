@@ -4,6 +4,7 @@ import com.typesafe.config.ConfigFactory
 import io.confluent.kafka.serializers.KafkaAvroDecoder
 import kafka.serializer.StringDecoder
 import org.apache.log4j.{Level, Logger}
+import org.apache.spark.sql.SQLContext
 import org.apache.spark.streaming.dstream.DStream
 import org.apache.spark.streaming.kafka.KafkaUtils
 import org.apache.spark.streaming.{Seconds, StreamingContext}
@@ -44,9 +45,19 @@ object StreamingJob extends App {
         ssc, kafkaParams, Set(topic)
       )
 
-  // Simply print first 5 elements and size of micro-batch
-  kafkaStream.print(5)
-  println("Elements in current micro-batch: " + kafkaStream.count())
+  // Load JSON strings into DataFrame
+  kafkaStream.foreachRDD { rdd =>
+    // Get the singleton instance of SQLContext
+    val sqlContext = SQLContext.getOrCreate(rdd.sparkContext)
+    import sqlContext.implicits._
+
+    val topicValueStrings = rdd.map(_._2.toString)
+    val df = sqlContext.read.json(topicValueStrings)
+
+    df.printSchema()
+    println("DataFrame count: " + df.count())
+    df.take(1).foreach(println)
+  }
 
   ssc.start()
   ssc.awaitTermination()
