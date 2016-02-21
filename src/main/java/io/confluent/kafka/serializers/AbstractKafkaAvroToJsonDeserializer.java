@@ -37,7 +37,7 @@ import io.confluent.kafka.schemaregistry.client.CachedSchemaRegistryClient;
 import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException;
 import kafka.utils.VerifiableProperties;
 
-public abstract class AbstractKafkaAvroDeserializer extends AbstractKafkaAvroSerDe {
+public abstract class AbstractKafkaAvroToJsonDeserializer extends AbstractKafkaAvroSerDe {
   public static final String SCHEMA_REGISTRY_SCHEMA_VERSION_PROP =
       "schema.registry.schema.version";
 

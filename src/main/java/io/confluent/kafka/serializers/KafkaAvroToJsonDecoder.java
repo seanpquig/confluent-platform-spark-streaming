@@ -19,13 +19,13 @@ import io.confluent.kafka.schemaregistry.client.SchemaRegistryClient;
 import kafka.serializer.Decoder;
 import kafka.utils.VerifiableProperties;
 
-public class KafkaAvroDecoder extends AbstractKafkaAvroDeserializer implements Decoder<Object> {
+public class KafkaAvroToJsonDecoder extends AbstractKafkaAvroToJsonDeserializer implements Decoder<Object> {
 
-  public KafkaAvroDecoder(SchemaRegistryClient schemaRegistry) {
+  public KafkaAvroToJsonDecoder(SchemaRegistryClient schemaRegistry) {
     this.schemaRegistry = schemaRegistry;
   }
 
-  public KafkaAvroDecoder(SchemaRegistryClient schemaRegistry, VerifiableProperties props) {
+  public KafkaAvroToJsonDecoder(SchemaRegistryClient schemaRegistry, VerifiableProperties props) {
     this.schemaRegistry = schemaRegistry;
     configureNonClientProperties(deserializerConfig(props));
   }
@@ -33,7 +33,7 @@ public class KafkaAvroDecoder extends AbstractKafkaAvroDeserializer implements D
   /**
    * Constructor used by Kafka consumer.
    */
-  public KafkaAvroDecoder(VerifiableProperties props) {
+  public KafkaAvroToJsonDecoder(VerifiableProperties props) {
     configure(new KafkaAvroDeserializerConfig(props.props()));
   }
 
